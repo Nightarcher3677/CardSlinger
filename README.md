@@ -1,5 +1,7 @@
 # Cardslinger
-A card based online game about KILLING EVERYTHING
+A card based online game with the unique feature that it is NOT TURN BASED.
+If you wait too long, you'll be dead. Defeat Friends to gain money, which
+you can use to get better cards!
 
 # Donate on Patreon!
 get a sneak peak at upcoming features
