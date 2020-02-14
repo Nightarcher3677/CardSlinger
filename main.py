@@ -4,6 +4,9 @@ import time
 import os
 import subprocess
 from filemanager import Game
+from CardSelectManager import card
+import sys
+import socket
 #from cardmanager import Cardpicker
 
 #initialsiation
@@ -16,29 +19,46 @@ clock = pygame.time.Clock()
 #pygame.display.set_caption("still in progress")
 
 print('Loading Images...')
+    #selection images
 start = pygame.image.load('startbutton.png')
-cursor = pygame.image.load('cursor.png')
 exit = pygame.image.load('exitbutton.png')
-titlebg = pygame.image.load('titlebg.png')
 battleimg = pygame.image.load('battle.png')
 deckimg = pygame.image.load('deck.png')
+onlineimg = pygame.image.load('online.png')
+offlineimg = pygame.image.load('offline.png')
 
     #card images
+card1img = pygame.image.load('cards\\error.png')
+card2img = pygame.image.load('cards\\error.png')
+card3img = pygame.image.load('cards\\error.png')
+card4img = pygame.image.load('cards\\error.png')
 lightningwall = pygame.image.load('cards\\lightningwall.png')
 frostbolt = pygame.image.load('cards\\frostbolt.png')
 reset = pygame.image.load('cards\\reset.png')
 warpling = pygame.image.load('cards\\warpling.png')
 dragonfire = pygame.image.load('cards\\dragonfire.png')
 
+    #other (backgrounds, ai sprites, etc, etc...)
+titlebg = pygame.image.load('titlebg.png')
+
 print('Images Loaded!')
 
 #checking save
 save = Game.loadSave('save.txt')
+savecheck = str(save)
+print('savecheck: ',savecheck)
+#initialising valid saves
+if '1' in savecheck or '2' in savecheck or '0' in savecheck or '7' in savecheck or '`' in savecheck or 'ikwy' in savecheck or 'new' in savecheck:
+    placeholder = 1
+else:
+    print('ERROR: INVALID SAVE CONTENTS.')
+    print('RESETTING...')
+    save = 'new'
 
-#save initialisation (resets if empty, returns the save translation if not)
+#save initialisation (resets if empty or 'new', returns the save translation if not)
 savecontent = Game.Save(save, 'save.txt')
 
-print('Save Content:')
+print('New Save Content:')
 print(savecontent)
 
 print('Linking...')
@@ -78,6 +98,8 @@ startselected = True
 battle = False
 deck = False
 deckselected = False
+deckselection = 1
+battletype = True
 win = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("Cardslinger")
 pygame.mouse.set_visible(False)
@@ -95,7 +117,7 @@ while run:
     elif card3 == 'Reset':
         card3img = reset
 
-    if card4 == 'lightning Wall':
+    if card4 == 'Lightning Wall':
         card4img = lightningwall
 
     clock.tick(20)
@@ -111,13 +133,15 @@ while run:
         textRect = text.get_rect()
         textRect.center = (250, 80)
         win.blit(text, textRect)
-        startselected = Game.titlecard(startselected)
-        #title = Game.titlepick(startselected)
+        startselected = card.titlecard(startselected)
+        #title = card.titlepick(startselected)
         if startselected:
             win.blit(start, (20, 120))
             win.blit(exit, (300, 140))
             keys = pygame.key.get_pressed()
             if keys[pygame.K_RETURN]:
+                pygame.mixer.music.load('card-2.mp3')
+                pygame.mixer.music.play(0)
                 title = False
                 battle = False
                 deck = False
@@ -128,16 +152,20 @@ while run:
             win.blit(exit, (300, 120))
             keys = pygame.key.get_pressed()
             if keys[pygame.K_RETURN]:
+                pygame.mixer.music.load('card-2.mp3')
+                pygame.mixer.music.play(0)
                 run = False
         pygame.display.flip()
     else:
         if not battle and not deck:
-            deckselected = Game.selectmenucard(deckselected)
+            deckselected = card.selectmenucard(deckselected)
             if deckselected:
                 win.blit(battleimg, (20, 140))
                 win.blit(deckimg, (300, 120))
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_RETURN]:
+                    pygame.mixer.music.load('card-2.mp3')
+                    pygame.mixer.music.play(0)
                     deck = True
                     wait = True
 
@@ -146,9 +174,14 @@ while run:
                 win.blit(deckimg, (300, 140))
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_RETURN]:
+                    pygame.mixer.music.load('card-2.mp3')
+                    pygame.mixer.music.play(0)
                     battle = True
                     placeholder = True
-        deckselection = 1
+                    time.sleep(0.1)
+        prev = deckselection
+        deckselection = card.selectdeckcard(deckselection, prev)
+        #print('deckselection: ', deckselection)
         if deck:
             text = font.render('Deck', True, (0,0,0))
             textRect = text.get_rect()
@@ -157,19 +190,104 @@ while run:
 
             if deckselection == 1:
                 win.blit(card1img, (50, 280))
-                win.blit(card3img, (150, 300))
+                win.blit(card2img, (150, 300))
+                win.blit(card3img, (250, 300))
+                win.blit(card4img, (350, 300))
                 keys = pygame.key.get_pressed()
                 if not wait:
                     if keys[pygame.K_RETURN]:
+                        pygame.mixer.music.load('card-2.mp3')
+                        pygame.mixer.music.play(0)
                         Placeholder = True
                 wait = False
             elif deckselection == 2:
-                win.blit(card1img, (20, 140))
-                win.blit(card3img, (300, 120))
+                win.blit(card1img, (50, 300))
+                win.blit(card2img, (150, 280))
+                win.blit(card3img, (250, 300))
+                win.blit(card4img, (350, 300))
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_RETURN]:
+                    pygame.mixer.music.load('card-2.mp3')
+                    pygame.mixer.music.play(0)
+                    placeholder = True
+            elif deckselection == 3:
+                win.blit(card1img, (50, 300))
+                win.blit(card2img, (150, 300))
+                win.blit(card3img, (250, 280))
+                win.blit(card4img, (350, 300))
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_RETURN]:
+                    pygame.mixer.music.load('card-2.mp3')
+                    pygame.mixer.music.play(0)
+
+                    #dev test program
+                    password = input('please enter dev code: ')
+                    if password == '2219':
+                        choice = input('decoded card name: ')
+                        if choice == 'Reset':
+                            card3 = 'Reset'
+                            print('success')
+                        elif choice == 'Frost Bolt':
+                            card3 = 'Frost Bolt'
+                            print('success')
+                        elif choice == 'shell':
+                            os.system('powershell')
+                        else:
+                            print('invalid card name for dev entry')
+
+                    placeholder = True
+
+            elif deckselection == 4:
+                win.blit(card1img, (50, 300))
+                win.blit(card2img, (150, 300))
+                win.blit(card3img, (250, 300))
+                win.blit(card4img, (350, 280))
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_RETURN]:
+                    pygame.mixer.music.load('card-2.mp3')
+                    pygame.mixer.music.play(0)
                     placeholder = True
 
         elif battle:
+            text = font.render('Battle', True, (0,0,0))
+            textRect = text.get_rect()
+            textRect.center = (250, 80)
+            win.blit(text, textRect)
+
+            #text = font.render('Still in developement', True, (255, 255, 255))
+            #textRect = text.get_rect()
+            #textRect.center = (250, 250)
+            #win.blit(text, textRect)
             placeholder = True
+            battletype = card.selectmenucard(battletype)
+            if battletype:
+                win.blit(onlineimg, (20, 140))
+                win.blit(offlineimg, (300, 120))
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_RETURN]:
+                    #pygame.mixer.music.load('card-2.mp3')
+                    #pygame.mixer.music.play(0)
+                    #deck = True
+                    #wait = True
+                    placeholder = True
+                    text = font.render("NOT AVAILABLE", True, (255, 255, 255))
+                    textRect = text.get_rect()
+                    textRect.center = (250, 250)
+                    win.blit(text, textRect)
+
+            else:
+                win.blit(onlineimg, (20, 120))
+                win.blit(offlineimg, (300, 140))
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_RETURN]:
+                    #pygame.mixer.music.load('card-2.mp3')
+                    #pygame.mixer.music.play(0)
+                    #battle = True
+                    placeholder = True
+                    text = font.render("NOT AVAILABLE", True, (255, 255, 255))
+                    textRect = text.get_rect()
+                    textRect.center = (250, 250)
+                    win.blit(text, textRect)
+
+
     pygame.display.update()
