@@ -10,6 +10,6 @@ get a sneak peak at upcoming features
 
 # Trello Board: See what's in development!
 <blockquote class="trello-board-compact">
-  <a href="{url to board}">Trello Board</a>
+  <a href="https://trello.com/b/SsrErBvm/coding-card-based-game">Trello Board</a>
 </blockquote>
 <script src="https://p.trellocdn.com/embed.min.js"></script>
