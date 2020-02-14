@@ -1,12 +1,30 @@
 import socket
+import pickle
+
+HEADERSIZE = 10
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-chooseport = (input('Enter Port:'))
-#choosehostname = input('Enter IP: ')
-
-s.connect((socket.gethostbyname(socket.gethostname()), int(chooseport)))
+s.connect((socket.gethostname(), 1243))
 
 while True:
-    msg = s.recv(1028)
-    print(msg.decode("utf-8"))
+    full_msg = b''
+    new_msg = True
+    while True:
+        msg = s.recv(16)
+        if new_msg:
+            print("new msg len:",msg[:HEADERSIZE])
+            msglen = int(msg[:HEADERSIZE])
+            new_msg = False
+
+        print(f"full message length: {msglen}")
+
+        full_msg += msg
+
+        print(len(full_msg))
+
+        if len(full_msg)-HEADERSIZE == msglen:
+            print("full msg recvd")
+            print(full_msg[HEADERSIZE:])
+            print(pickle.loads(full_msg[HEADERSIZE:]))
+            new_msg = True
+            full_msg = b""
