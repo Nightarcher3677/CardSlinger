@@ -330,6 +330,7 @@ while run:
                             keys = pygame.key.get_pressed()
                             if keys[pygame.K_RETURN]:
                                 message = 'test'
+                                client_socket.setblocking(True) #<-- test, might not work
                                 # Encode message to bytes, prepare header and convert to bytes, like for username above, then send
                                 message = message.encode('utf-8')
                                 message_header = f"{len(message):<{HEADER_LENGTH}}".encode('utf-8')
