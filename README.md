@@ -9,6 +9,8 @@ get a sneak peak at upcoming features
 
 # Join The Discord!
 <iframe src="https://discordapp.com/widget?id=677617654076538910&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+# mind map! see our plan!
+<iframe src="https://atlas.mindmup.com/nightarcher3677/online_game_not_local_/index.html"></iframe>
 
 # Trello Board: See what's in development!
 <blockquote class="trello-board-compact">
