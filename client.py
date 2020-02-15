@@ -5,7 +5,7 @@ import errno
 HEADER_LENGTH = 10
 
 IP = "127.0.0.1"
-PORT = 1234
+PORT = 1235
 my_username = 'client2'
 
 # Create a socket
@@ -26,7 +26,10 @@ username_header = f"{len(username):<{HEADER_LENGTH}}".encode('utf-8')
 client_socket.send(username_header + username)
 
 while True:
-
+    try:
+        client_socket.connect((IP, PORT))
+    except:
+        placeholder = False
     # Wait for user to input a message
     message = input(f'{my_username} > ')
 
@@ -34,9 +37,13 @@ while True:
     if message:
 
         # Encode message to bytes, prepare header and convert to bytes, like for username above, then send
-        message = message.encode('utf-8')
-        message_header = f"{len(message):<{HEADER_LENGTH}}".encode('utf-8')
-        client_socket.send(message_header + message)
+            try:
+                client_socket.connect((IP, PORT))
+            except:
+                placeholder = False
+            message = message.encode('utf-8')
+            message_header = f"{len(message):<{HEADER_LENGTH}}".encode('utf-8')
+            client_socket.send(message_header + message)
 
     try:
         # Now we want to loop over received messages (there might be more than one) and print them
@@ -80,3 +87,7 @@ while True:
         # Any other exception - something happened, exit
         print('Reading error: '.format(str(e)))
         sys.exit()
+        try:
+            client_socket.connect((IP, PORT))
+        except:
+            placeholder = False
