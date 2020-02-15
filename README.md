@@ -8,7 +8,7 @@ get a sneak peak at upcoming features
 <a href="https://www.patreon.com/bePatron?u=30607453" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
 
 # Join The Discord!
-<iframe src="https://discordapp.com/widget?id=677617654076538910&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+<iframe src="https://titanembeds.com/embed/677617654076538910" height="600" width="800" frameborder="0"></iframe>
 # mind map! see our plan!
 <iframe src="https://atlas.mindmup.com/nightarcher3677/online_game_not_local_/index.html" width="1350" height="550"></iframe>
 

@@ -320,17 +320,18 @@ while run:
                     onlinebattle = True
                     message = True
                     while onlinebattle:
-                        # Wait for user to input a message
-                        #message = input(f'{my_username} > ')
+                        time.sleep(0.01)
                         keys = pygame.key.get_pressed()
                         if keys[pygame.K_RETURN]:
-                            message = 'test'
+                            message = False
+                            time.sleep(0.01)
+                        # Wait for user to input a message
+                        #message = input(f'{my_username} > ')
                         # If message is not empty - send it
                         if message:
                             keys = pygame.key.get_pressed()
                             if keys[pygame.K_RETURN]:
                                 message = 'test'
-                                client_socket.setblocking(True) #<-- test, might not work
                                 # Encode message to bytes, prepare header and convert to bytes, like for username above, then send
                                 message = message.encode('utf-8')
                                 message_header = f"{len(message):<{HEADER_LENGTH}}".encode('utf-8')
