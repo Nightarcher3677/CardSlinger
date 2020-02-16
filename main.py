@@ -5,7 +5,7 @@ import os
 import subprocess
 from filemanager import Game
 from CardSelectManager import card
-from socketconnect import s_func
+#from socketconnect import s_func
 import sys
 import socket
 #from cardmanager import Cardpicker

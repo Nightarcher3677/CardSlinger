@@ -1,20 +1,51 @@
-#!/usr/bin/env python3
-
 import socket
 
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 1235          # Port to listen on (non-privileged ports are > 1023)
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST, PORT))
-    s.listen()
-    conn, addr = s.accept()
-    with conn:
-        print('Connected by', addr)
-        while True:
-            data = conn.recv(1024)
-            result = data.decode("utf-8")
-            print(result)
-            if not data:
-                break
-            conn.sendall(data)
+def server_program():
+    # get the hostname
+
+    host = socket.gethostname()
+    port = 5000  # initiate port no above 1024
+    hp = 50 #for testing
+
+    print('IP: ', host)
+    print('port: ', port)
+
+    server_socket = socket.socket()  # get instance
+    # look closely. The bind() function takes tuple as argument
+    server_socket.bind((host, port))  # bind host address and port together
+
+    # configure how many client the server can listen simultaneously
+    server_socket.listen(2)
+    conn, address = server_socket.accept()  # accept new connection
+    print("Connection from: " + str(address))
+    while True:
+        # receive data stream. it won't accept data packet greater than 1024 bytes
+        data = conn.recv(1024).decode("utf-8")
+        if not data:
+            # if data is not received break
+            break
+        if 'dmg' in data:
+            dmg_received = data.split(' ')[-1].strip()
+            print('damage received:', dmg_received)
+            hp -= int(dmg_received)
+            print('hp: ', hp)
+            data2 = 'enemyhp ' + str(hp)
+            conn.send(bytes(data2, "utf-8"))
+
+        elif 'hp' in data and not 'ehp':
+            hp_received = data.split(' ')[-1].strip()
+            print('hp:', hp_received)
+
+        elif 'ehp' in data:
+            ehp_received = data.split(' ')[-1].strip()
+            print('enemy hp:', ehp_received)
+        print("from connected user: " + str(data))
+        data = input(' -> ')
+        conn.send(bytes(data, "utf-8"))  # send data to the client
+
+    conn.close()  # close the connection
+
+
+if __name__ == '__main__':
+    server_program()
