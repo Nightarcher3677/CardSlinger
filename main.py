@@ -64,6 +64,12 @@ dragonfire = pygame.image.load('cards\\dragonfire.png')
 titlebg = pygame.image.load('titlebg.png')
 
 print('Images Loaded!')
+print('preparing functions and classes...')
+
+class imgload:
+    def deck(card, xpos, ypos):
+        showcard = pygame.transform.rotozoom(card, 0, 2)
+        win.blit(showcard, (xpos, ypos))
 
 #checking save
 save = Game.loadSave('save.txt')
@@ -224,7 +230,8 @@ while run:
                 wait = False
             elif deckselection == 2:
                 win.blit(card1img, (50, 300))
-                win.blit(card2img, (150, 280))
+                #win.blit(card2img, (150, 280))
+                imgload.deck(card2img, 150, 280)
                 win.blit(card3img, (250, 300))
                 win.blit(card4img, (350, 300))
                 keys = pygame.key.get_pressed()

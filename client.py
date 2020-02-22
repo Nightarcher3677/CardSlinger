@@ -2,7 +2,7 @@ import socket
 
 class c:
     hp = 50
-    def client_program():
+    def client_program(message):
         global hp
         host = input('please enter the hostname: \n')  # as both code is running on same pc
         port = int(input('please enter the port: \n'))  # socket server port number
@@ -10,7 +10,7 @@ class c:
         client_socket = socket.socket()  # instantiate
         client_socket.connect((host, port))  # connect to the server
 
-        message = input(" -> ")  # take input
+        #message = input(" -> ")  # take input
 
         while message.lower().strip() != 'bye':
             client_socket.send(message.encode("utf-8"))  # send message
@@ -32,11 +32,11 @@ class c:
                 print('enemy hp:', ehp_received)
 
             print('Received from server: ' + data)  # show in terminal
-            message = ''
-            message = input(" -> ")  # again take input
+            #message = ''
+            #message = input(" -> ")  # again take input
 
         client_socket.close()  # close the connection
 
 
 if __name__ == '__main__':
-    c.client_program()
+    c.client_program('dmg 567')

@@ -5,7 +5,7 @@ import subprocess
 import sys
 import pygame
 pygame.init()
-flowey = pygame.image.load('flowey.png')
+#flowey = pygame.image.load('flowey.png')
 
 
 class Game:
