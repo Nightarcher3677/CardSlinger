@@ -5,6 +5,8 @@ import os
 import subprocess
 from filemanager import Game
 from CardSelectManager import card
+from Save import save
+from server import s_func
 #from socketconnect import s_func
 import sys
 import socket
@@ -322,9 +324,20 @@ while run:
                     #client_socket.connect((IP, PORT))
                     # Set connection to non-blocking state, so .recv() call won;t block, just return some exception we'll handle
                     #client_socket.setblocking(False)
+                    #convert to card selection
+                    choice = input('would you like to host or connect?')
+                    if choice == 'connect':
+                        host = input('please enter the hostname')
+                        port = input('please enter the port')
                     while onlinebattle:
-                        battle = False
-                        onlinebattle = False
+                        if choice == 'host':
+                            s_func.server_program(12, 'dmg 3')
+                        elif choice == 'connect':
+                            s_func.client_program('test', 12, host, port)
+                        else:
+                            print('invalid command')
+                            onlinebattle = False
+
 
 
 
