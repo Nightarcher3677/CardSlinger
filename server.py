@@ -31,13 +31,13 @@ class s_func:
                 dmg_received = data.split(' ')[-1].strip()
                 print('damage received:', dmg_received)
                 hp -= int(dmg_received)
-                print('hp: ', hp)
+                return f'dmg {hp}'
                 data2 = 'enemyhp ' + str(hp)
                 conn.send(bytes(data2, "utf-8"))
 
             elif 'hp' in data and not 'ehp':
                 hp_received = data.split(' ')[-1].strip()
-                print('hp:', hp_received)
+                return f'ehp {hp_received}'
 
             elif 'ehp' in data:
                 ehp_received = data.split(' ')[-1].strip()
@@ -67,13 +67,13 @@ class s_func:
             dmg_received = data.split(' ')[-1].strip()
             print('damage received:', dmg_received)
             hp -= int(dmg_received)
-            print('hp: ', hp)
+            return f'dmg {hp}'
             data2 = 'enemyhp ' + str(hp)
             conn.send(bytes(data2, "utf-8"))
 
         elif 'hp' in data and not 'ehp':
             hp_received = data.split(' ')[-1].strip()
-            print('hp:', hp_received)
+            return f'ehp {hp_received}'
 
         elif 'ehp' in data:
             ehp_received = data.split(' ')[-1].strip()

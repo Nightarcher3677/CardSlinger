@@ -58,7 +58,6 @@ card3img = pygame.image.load('cards\\error.png')
 card4img = pygame.image.load('cards\\error.png')
 lightningwall = pygame.image.load('cards\\lightningwall.png')
 frostbolt = pygame.image.load('cards\\frostbolt.png')
-reset = pygame.image.load('cards\\reset.png')
 warpling = pygame.image.load('cards\\warpling.png')
 dragonfire = pygame.image.load('cards\\dragonfire.png')
 
@@ -70,7 +69,7 @@ print('preparing functions and classes...')
 
 class imgload:
     def deck(card, xpos, ypos):
-        showcard = pygame.transform.rotozoom(card, 0, 2)
+        showcard = pygame.transform.rotozoom(card, 0, 1.5)
         win.blit(showcard, (xpos, ypos))
 
 #checking save
@@ -233,7 +232,7 @@ while run:
             elif deckselection == 2:
                 win.blit(card1img, (50, 300))
                 #win.blit(card2img, (150, 280))
-                imgload.deck(card2img, 150, 280)
+                imgload.deck(card2img, 130, 280)
                 win.blit(card3img, (250, 300))
                 win.blit(card4img, (350, 300))
                 keys = pygame.key.get_pressed()
